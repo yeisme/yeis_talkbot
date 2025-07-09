@@ -5,8 +5,8 @@ TTS:
     config: config/edge-tts.yaml
 ASR:
   FunASR:
-    model_dir: FunAudioLLM/SenseVoiceSmall
-    output_file: tmp/
+    model: FunAudioLLM/SenseVoiceSmall
+    output_dir: tmp/
 VAD:
   SileroVAD:
     sampling_rate: 16000

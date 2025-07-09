@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 import uuid
+from typing import Literal
 
 
 @dataclass
@@ -13,3 +14,10 @@ class BaseEvent:
 
     def __post_init__(self):
         self.event_name = self.__class__.__name__
+
+
+@dataclass
+class TTSEvent(BaseEvent):
+    text: str = ""
+    audio_path: str = ""
+    status: Literal["pending", "processing", "completed", "failed"] = "pending"
