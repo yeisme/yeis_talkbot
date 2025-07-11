@@ -1,23 +1,39 @@
-from dataclasses import dataclass, field
+from pydantic import BaseModel, Field
 from datetime import datetime, timezone
 import uuid
-from typing import Literal
+from typing import Literal, Any
 
 
-@dataclass
-class BaseEvent:
-    """事件的基础结构"""
+class BaseEvent(BaseModel):
+    event_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    event_name: str = ""
 
-    event_id: str = field(default_factory=lambda: str(uuid.uuid4()))
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    event_name: str = field(init=False)
-
-    def __post_init__(self):
+    def __init__(self, **data: Any):
+        super().__init__(**data)
         self.event_name = self.__class__.__name__
 
 
-@dataclass
 class TTSEvent(BaseEvent):
     text: str = ""
     audio_path: str = ""
     status: Literal["pending", "processing", "completed", "failed"] = "pending"
+
+
+class BaseHandler:
+    async def handle_event(self, event: BaseEvent) -> None:
+        raise NotImplementedError("Subclasses must implement this method")
+
+
+class TTSHandler(BaseHandler):
+    """
+    TTS 事件处理器基类
+
+    初始化需要 TTS 实例
+    """
+
+    def __init__(self, tts: Any) -> None:
+        self.tts = tts
+
+    async def handle_event(self, event: BaseEvent) -> None:
+        raise NotImplementedError("Subclasses must implement this method")

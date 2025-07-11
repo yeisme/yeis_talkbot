@@ -2,6 +2,9 @@ from typing import Callable, Type, Awaitable
 from .event import BaseEvent
 
 import asyncio
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class EventBus:
@@ -20,6 +23,22 @@ class EventBus:
         if event_type not in self._subscribers:
             self._subscribers[event_type] = []
         self._subscribers[event_type].append(handler)
+        logger.info(f"订阅事件: {event_type.__name__}")
+
+    def unsubscribe(
+        self,
+        event_type: Type[BaseEvent],
+        handler: Callable[[BaseEvent], Awaitable[None]],
+    ):
+        """取消订阅一个事件处理器"""
+        if event_type in self._subscribers:
+            try:
+                self._subscribers[event_type].remove(handler)
+                logger.info(f"取消订阅事件: {event_type.__name__}")
+            except ValueError:
+                logger.warning(
+                    f"处理器未找到: {handler}，无法取消订阅 {event_type.__name__}"
+                )
 
     async def publish(self, event: BaseEvent):
         """发布一个事件"""
@@ -27,6 +46,7 @@ class EventBus:
         if event_type in self._subscribers:
             for handler in self._subscribers[event_type]:
                 await handler(event)
+        logger.info(f"发布事件: {event_type.__name__}")
 
     async def publish2all(self, event: BaseEvent):
         """发布一个事件并并发执行所有处理器。"""
@@ -34,6 +54,7 @@ class EventBus:
         if event_type in self._subscribers:
             tasks = [handler(event) for handler in self._subscribers[event_type]]
             await asyncio.gather(*tasks)  # Run all handlers concurrently
+        logger.info(f"发布事件: {event_type.__name__} 并发执行所有处理器")
 
 
 event_bus = EventBus()

@@ -1,14 +1,21 @@
+from ..event import BaseEvent, event_bus, TTSEvent, TTSHandler
 from .abc import TTS
+
 import logging
 from typing import Any
 import os
 import time
 import uuid
 
+
 logger = logging.getLogger(__name__)
 
 
 class EdgeTTS(TTS):
+    """
+    Edge TTS implementation of the TTS abstract base class.
+    """
+
     from ..configs.tts_configs import EdgeTTSConfig
     from ..configs.configs import AppConfig
     import edge_tts
@@ -26,10 +33,6 @@ class EdgeTTS(TTS):
             self.output_path = "tmp/tts/"
         if os.path.exists(self.output_path) is False:
             os.makedirs(self.output_path)
-
-    """
-    Edge TTS implementation of the TTS abstract base class.
-    """
 
     async def synthesize(self, text: str, **kwargs: str) -> Any:
         """
@@ -64,3 +67,44 @@ class EdgeTTS(TTS):
             return None
 
         return audio_output
+
+
+class EdgeTTSHandler(TTSHandler):
+    """
+    Edge TTS 事件处理器
+
+    初始化需要 EdgeTTS 实例
+    """
+
+    def __init__(self, tts: EdgeTTS) -> None:
+        self.tts = tts
+
+    async def handle_event(self, event: BaseEvent) -> None:
+        # 类型检查和转换
+        if not isinstance(event, TTSEvent):
+            logger.error("事件类型错误，必须是 TTSEvent")
+            return
+        try:
+            event.status = "processing"
+            audio_path = await self.tts.synthesize(event.text)
+            if audio_path:
+                event.audio_path = audio_path
+                event.status = "completed"
+            else:
+                event.status = "failed"
+        except Exception as e:
+            logger.error(f"处理 TTS 事件失败: {e}")
+            event.status = "failed"
+
+
+def register_edge_tts_handler(edge_tts: EdgeTTS) -> TTSHandler:
+    handler = EdgeTTSHandler(edge_tts)
+    event_bus.subscribe(TTSEvent, handler.handle_event)
+    return handler
+
+
+def unregister_edge_tts_handler(handler: EdgeTTSHandler):
+    """
+    Unregister the Edge TTS handler from the event bus.
+    """
+    event_bus.unsubscribe(TTSEvent, handler.handle_event)
