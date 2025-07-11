@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional, Dict
 import yaml
 
@@ -7,13 +7,16 @@ import yaml
 class TTSConfig(BaseModel):
     index_tts: Dict[str, str] = Field({"config": "checkpoints/checkpoints-config.yaml"})
     edge_tts: Dict[str, str] = Field({"config": "config/edge-tts.yaml"})
+    out_path: str = Field(
+        default="tmp/tts/", description="Output path for TTS audio files"
+    )
 
 
 class ASRConfig(BaseModel):
     FunASR: Dict[str, str] = Field(
-        {
-            "model": "funasr/whisper-zh-cn-base",
-            "output_dir": "tmp/",
+        default={
+            "model": "FunAudioLLM/SenseVoiceSmall",
+            "output_dir": "tmp/asr/",
         },
         description="Configuration for FunASR ASR model",
     )
@@ -21,7 +24,7 @@ class ASRConfig(BaseModel):
 
 class VADConfig(BaseModel):
     SileroVAD: Dict[str, float] = Field(
-        {
+        default={
             "sampling_rate": 16000,
             "threshold": 0.5,
             "min_silence_duration_ms": 200,
@@ -57,9 +60,7 @@ class AppConfig(BaseSettings):
     VAD: VADConfig
     LLM: LLMConfig
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
     @classmethod
     def from_yaml(cls, yaml_file: str):
