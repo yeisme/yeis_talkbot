@@ -14,3 +14,7 @@ checkpoints/
 
 # Configuration files
 .env
+
+# temporary files
+tmp
+temp

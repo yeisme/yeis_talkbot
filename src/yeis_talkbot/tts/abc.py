@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict
+from typing import Any
 
 
 class TTS(ABC):
@@ -8,7 +8,7 @@ class TTS(ABC):
     """
 
     @abstractmethod
-    def synthesize(self, text: str, **kwargs: Dict[str, Any]) -> Any:
+    def synthesize(self, text: str, **kwargs: str) -> Any:
         """
         Synthesize text to audio.
 
