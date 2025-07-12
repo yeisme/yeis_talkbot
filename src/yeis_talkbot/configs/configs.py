@@ -1,29 +1,48 @@
-from pydantic import BaseModel
-from pydantic_settings import BaseSettings
+from pydantic import BaseModel, Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional, Dict
 import yaml
 
 
 class TTSConfig(BaseModel):
-    index_tts: Dict[str, str]
-    edge_tts: Dict[str, str]
+    index_tts: Dict[str, str] = Field({"config": "checkpoints/checkpoints-config.yaml"})
+    edge_tts: Dict[str, str] = Field({"config": "config/edge-tts.yaml"})
+    out_path: str = Field(
+        default="tmp/tts/", description="Output path for TTS audio files"
+    )
 
 
 class ASRConfig(BaseModel):
-    FunASR: Dict[str, str]
+    FunASR: Dict[str, str] = Field(
+        default={
+            "model": "FunAudioLLM/SenseVoiceSmall",
+            "output_dir": "tmp/asr/",
+        },
+        description="Configuration for FunASR ASR model",
+    )
 
 
 class VADConfig(BaseModel):
-    SileroVAD: Dict[str, float]
+    SileroVAD: Dict[str, float] = Field(
+        default={
+            "sampling_rate": 16000,
+            "threshold": 0.5,
+            "min_silence_duration_ms": 200,
+        },
+        description="Configuration for Silero VAD",
+    )
 
 
 class LLMConfig(BaseModel):
-    model: str
-    base_url: str = "https://api.openai.com/v1/chat/completions"
-    temperature: float = 0.7
-    max_tokens: int
-    streaming: bool
-    timeout: Optional[int | None] = None
+    model: str = Field("gpt4o", description="The model to use for LLM")
+    base_url: str = Field(
+        default="https://api.openai.com/v1/chat/completions",
+        description="Base URL for the LLM API",
+    )
+    temperature: float = Field(0.7, description="Temperature for LLM responses")
+    max_tokens: int = Field(..., description="Maximum tokens for LLM responses")
+    streaming: bool = Field(False, description="Enable streaming for LLM responses")
+    timeout: Optional[int | None] = Field(None, description="Timeout for LLM requests")
 
 
 class AppConfig(BaseSettings):
@@ -41,9 +60,7 @@ class AppConfig(BaseSettings):
     VAD: VADConfig
     LLM: LLMConfig
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
     @classmethod
     def from_yaml(cls, yaml_file: str):
