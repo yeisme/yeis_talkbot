@@ -24,7 +24,7 @@ class EdgeTTS(TTS):
         """
         Initialize the EdgeTTS instance with configuration settings.
         """
-        self.config = self.EdgeTTSConfig.from_yaml("configs/edge-tts.yaml")
+        self.config = self.EdgeTTSConfig.from_yaml(app_config.TTS.edge_tts["config"])
         self.voice = self.config.voice
         self.rate = self.config.rate
         self.volume = self.config.volume
