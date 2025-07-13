@@ -1,6 +1,6 @@
 import pytest
-from yeis_talkbot.tts.edge_tts import EdgeTTS
-from yeis_talkbot.configs import AppConfig
+from src.yeis_talkbot.tts.edge_tts import EdgeTTS
+from src.yeis_talkbot.configs import AppConfig
 import os
 
 

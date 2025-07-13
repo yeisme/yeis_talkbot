@@ -1,13 +1,13 @@
 import pytest
-from yeis_talkbot.tts import (
+from src.yeis_talkbot.tts import (
     EdgeTTS,
     register_tts_handler,
     unregister_tts_handler,
     EdgeTTSHandler,
 )
-from yeis_talkbot.configs import AppConfig
-from yeis_talkbot.event.event import TTSEvent
-from yeis_talkbot.event.bus import event_bus
+from src.yeis_talkbot.configs import AppConfig
+from src.yeis_talkbot.event.event import TTSEvent
+from src.yeis_talkbot.event.bus import event_bus
 import os
 
 
