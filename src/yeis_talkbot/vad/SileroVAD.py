@@ -8,11 +8,9 @@ import logging
 
 # 假设 VAD 抽象基类已定义
 from .abc import VAD
+from ..types import audio_type
 
 logger = logging.getLogger(__name__)
-
-
-audio_type = Union[bytes, torch.Tensor, np.ndarray]
 
 
 class SileroVAD(VAD):
