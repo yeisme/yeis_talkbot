@@ -19,7 +19,8 @@ dependencies = [
     "soundfile>=0.13.1",
     "torch>=2.7.1",
     "torchvision>=0.22.1",
-    "transformers>=4.53.1"
+    "transformers>=4.53.1",
+    "funasr>=1.2.6"
 ]
 
 [tool.setuptools.packages.find]
