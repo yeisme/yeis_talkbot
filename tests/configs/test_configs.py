@@ -1,4 +1,4 @@
-from yeis_talkbot.configs import AppConfig, EdgeTTSConfig
+from src.yeis_talkbot.configs import AppConfig, EdgeTTSConfig
 
 
 def test_app_load_config():

@@ -20,6 +20,12 @@ class TTSEvent(BaseEvent):
     status: Literal["pending", "processing", "completed", "failed"] = "pending"
 
 
+class ASREvent(BaseEvent):
+    audio_path: str = ""
+    text: str = ""
+    status: Literal["pending", "processing", "completed", "failed"] = "pending"
+
+
 class BaseHandler:
     async def handle_event(self, event: BaseEvent) -> None:
         raise NotImplementedError("Subclasses must implement this method")
@@ -34,6 +40,20 @@ class TTSHandler(BaseHandler):
 
     def __init__(self, tts: Any) -> None:
         self.tts = tts
+
+    async def handle_event(self, event: BaseEvent) -> None:
+        raise NotImplementedError("Subclasses must implement this method")
+
+
+class ASRHandler(BaseHandler):
+    """
+    ASR 事件处理器基类
+
+    初始化需要 ASR 实例
+    """
+
+    def __init__(self, asr: Any) -> None:
+        self.asr = asr
 
     async def handle_event(self, event: BaseEvent) -> None:
         raise NotImplementedError("Subclasses must implement this method")

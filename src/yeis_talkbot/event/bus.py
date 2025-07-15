@@ -1,7 +1,6 @@
 from typing import Callable, Type, Awaitable
 from .event import BaseEvent
 
-import asyncio
 import logging
 
 logger = logging.getLogger(__name__)
@@ -47,14 +46,6 @@ class EventBus:
             for handler in self._subscribers[event_type]:
                 await handler(event)
         logger.info(f"发布事件: {event_type.__name__}")
-
-    async def publish2all(self, event: BaseEvent):
-        """发布一个事件并并发执行所有处理器。"""
-        event_type = type(event)
-        if event_type in self._subscribers:
-            tasks = [handler(event) for handler in self._subscribers[event_type]]
-            await asyncio.gather(*tasks)  # Run all handlers concurrently
-        logger.info(f"发布事件: {event_type.__name__} 并发执行所有处理器")
 
 
 event_bus = EventBus()
