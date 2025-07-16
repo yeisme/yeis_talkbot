@@ -20,3 +20,12 @@ class ASR(ABC):
         :return: Transcribed text.
         """
         pass
+
+    @abstractmethod
+    def reset(self) -> None:
+        """
+        Reset the internal state of the ASR system.
+
+        This method should be called before starting a new transcription session.
+        """
+        pass

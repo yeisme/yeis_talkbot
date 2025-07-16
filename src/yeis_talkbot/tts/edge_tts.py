@@ -100,6 +100,7 @@ class EdgeTTSHandler(TTSHandler):
 def register_edge_tts_handler(edge_tts: EdgeTTS) -> TTSHandler:
     handler = EdgeTTSHandler(edge_tts)
     event_bus.subscribe(TTSEvent, handler.handle_event)
+    logger.info("Edge TTS 事件处理器已注册")
     return handler
 
 
@@ -108,3 +109,4 @@ def unregister_edge_tts_handler(handler: EdgeTTSHandler):
     Unregister the Edge TTS handler from the event bus.
     """
     event_bus.unsubscribe(TTSEvent, handler.handle_event)
+    logger.info("Edge TTS 事件处理器已取消注册")

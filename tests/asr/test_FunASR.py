@@ -6,10 +6,10 @@ from typing import List
 
 # 确保导入路径正确，这里假设 AppConfig 和 FunASRStreaming 的路径如下
 from src.yeis_talkbot.configs import AppConfig
-from src.yeis_talkbot.asr import FunASRStreaming
+from src.yeis_talkbot.asr import FunASR
 
 # 使用 Pytest 的类型别名，让测试函数更简洁
-ASRTestFixture = FunASRStreaming
+ASRTestFixture = FunASR
 
 
 @pytest.fixture(scope="module")
@@ -23,7 +23,7 @@ def app_config() -> AppConfig:
 @pytest.fixture(scope="module")
 def asr(app_config: AppConfig) -> ASRTestFixture:
     """初始化 FunASRStreaming 实例，供所有测试使用。"""
-    return FunASRStreaming(app_config=app_config)
+    return FunASR(app_config=app_config)
 
 
 def test_transcribe_silence(asr: ASRTestFixture) -> None:
