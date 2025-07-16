@@ -15,21 +15,18 @@ class TTSConfig(BaseModel):
 class ASRConfig(BaseModel):
     FunASR: Dict[str, str] = Field(
         default={
-            "model": "FunAudioLLM/SenseVoiceSmall",
-            "output_dir": "tmp/asr/",
+            "model": "paraformer-zh-streaming",
         },
-        description="Configuration for FunASR ASR model",
+        description="Configuration for FunASR ASR model(streaming enabled)",
     )
 
 
 class VADConfig(BaseModel):
-    SileroVAD: Dict[str, float] = Field(
+    FunASR: Dict[str, str] = Field(
         default={
-            "sampling_rate": 16000,
-            "threshold": 0.5,
-            "min_silence_duration_ms": 200,
+            "model": "fsmn-vad",
         },
-        description="Configuration for Silero VAD",
+        description="Configuration for FunASR VAD model",
     )
 
 

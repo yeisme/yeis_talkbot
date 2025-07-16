@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict
+from typing import Optional
+from ..types import audio_type
 
 
 class ASR(ABC):
@@ -10,12 +11,12 @@ class ASR(ABC):
     """
 
     @abstractmethod
-    def transcribe(self, audio: Any, **kwargs: Dict[str, Any]) -> str:
+    def transcribe(self, chunk: Optional[audio_type], is_final: bool = False) -> str:
         """
         Transcribe audio input to text.
 
-        :param audio: Audio input to be transcribed.
-        :param kwargs: Additional parameters for transcription.
+        :param chunk: Audio input to be transcribed.
+        :param is_final: Whether this is the final chunk of audio.
         :return: Transcribed text.
         """
         pass
