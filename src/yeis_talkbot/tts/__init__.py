@@ -4,8 +4,8 @@ from .abc import TTS
 
 __all__ = [
     "TTS",
-    "register_tts_handler",
     "EdgeTTS",
-    "unregister_tts_handler",
     "EdgeTTSHandler",
+    "register_tts_handler",
+    "unregister_tts_handler",
 ]

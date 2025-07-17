@@ -15,10 +15,10 @@ import os
 async def test_register_edge_tts_handler():
     app_config = AppConfig.from_yaml("configs/config.yaml")
     tts = EdgeTTS(app_config=app_config)
-    handle = register_tts_handler(tts)
+    handler = register_tts_handler(tts)
 
-    assert handle is not None
-    assert isinstance(handle, EdgeTTSHandler)
+    assert handler is not None
+    assert isinstance(handler, EdgeTTSHandler)
 
     text = "测试事件驱动 TTS"
     event = TTSEvent(text=text)
@@ -27,17 +27,17 @@ async def test_register_edge_tts_handler():
     assert event.status == "completed"
     assert os.path.exists(event.audio_path)
     os.remove(path=event.audio_path)
-    unregister_tts_handler(handle)
+    unregister_tts_handler(handler)
 
 
 @pytest.mark.asyncio
 async def test_batch_tts_events():
     app_config = AppConfig.from_yaml("configs/config.yaml")
     tts = EdgeTTS(app_config=app_config)
-    handle = register_tts_handler(tts)
+    handler = register_tts_handler(tts)
 
-    assert handle is not None
-    assert isinstance(handle, EdgeTTSHandler)
+    assert handler is not None
+    assert isinstance(handler, EdgeTTSHandler)
 
     texts = ["你好，世界", "第二条语音", "第三条语音"]
     events = [TTSEvent(text=text) for text in texts]
@@ -56,4 +56,4 @@ async def test_batch_tts_events():
         except Exception:
             pass
 
-    unregister_tts_handler(handle)
+    unregister_tts_handler(handler)

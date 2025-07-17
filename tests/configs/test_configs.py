@@ -10,13 +10,10 @@ def test_app_load_config():
     assert app.TTS.edge_tts["config"] == "configs/edge-tts.yaml"
 
     assert hasattr(app, "ASR")
-    assert app.ASR.FunASR["model"] == "FunAudioLLM/SenseVoiceSmall"
-    assert app.ASR.FunASR["output_dir"] == "tmp/asr/"
+    assert app.ASR.FunASR["model"] == "paraformer-zh-streaming"
 
     assert hasattr(app, "VAD")
-    assert app.VAD.SileroVAD["sampling_rate"] == 16000
-    assert app.VAD.SileroVAD["threshold"] == 0.5
-    assert app.VAD.SileroVAD["min_silence_duration_ms"] == 200
+    assert app.VAD.FunASR["model"] == "fsmn-vad"
 
     assert hasattr(app, "LLM")
     assert app.LLM.model == "deepseek/deepseek-chat-v3-0324:free"
