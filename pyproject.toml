@@ -18,7 +18,9 @@ dependencies = [
     "soundfile>=0.13.1",
     "torch>=2.7.1",
     "torchvision>=0.22.1",
-    "transformers>=4.53.1"
+    "transformers>=4.53.1",
+    "httpx>=0.28.1",
+    "langchain-mcp-adapters>=0.1.9"
 ]
 
 [tool.setuptools.packages.find]

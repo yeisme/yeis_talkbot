@@ -1,5 +1,12 @@
-from .configs import AppConfig, ASRConfig, TTSConfig, VADConfig, LLMConfig
+from .configs import (
+    AppConfig,
+    ASRConfig,
+    TTSConfig,
+    VADConfig,
+    LLMConfig,
+)
 from .tts_configs import EdgeTTSConfig
+from .tools_configs import ToolsConfig
 
 __all__ = [
     "AppConfig",
@@ -8,4 +15,5 @@ __all__ = [
     "TTSConfig",
     "VADConfig",
     "LLMConfig",
+    "ToolsConfig",
 ]

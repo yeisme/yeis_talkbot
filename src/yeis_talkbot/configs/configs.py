@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional, Dict
 import yaml
+from .tools_configs import ToolsConfig
 
 
 class TTSConfig(BaseModel):
@@ -56,6 +57,7 @@ class AppConfig(BaseSettings):
     ASR: ASRConfig
     VAD: VADConfig
     LLM: LLMConfig
+    Tools: ToolsConfig
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
