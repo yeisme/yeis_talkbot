@@ -38,3 +38,17 @@ where = ["src"]
         "pytest-benchmark>=5.1.0",
         "pytest>=8.4.1"
     ]
+
+[tool.pylsp-mypy]
+enabled = true
+
+[tool.pyright]
+reportPrivateUsage = "none"
+reportProtectedAccess = "none" 
+extraPaths = ["tests"]
+
+[tool.pylint]
+disable = [
+    "protected-access",
+    "W0212"
+]

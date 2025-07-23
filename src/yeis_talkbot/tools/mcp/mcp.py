@@ -75,3 +75,12 @@ class MCPToolProvider:
             MultiServerMCPClient 实例，如果未初始化则返回 None。
         """
         return self._mcp_client
+
+    def is_initialized(self) -> bool:
+        """
+        检查工具提供者是否已初始化。
+
+        Returns:
+            如果已初始化返回 True，否则返回 False。
+        """
+        return self._initialized

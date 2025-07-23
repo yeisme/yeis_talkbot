@@ -33,3 +33,10 @@ def test_edge_tts_config():
     assert edge_tts_config.voice == "zh-CN-XiaoxiaoNeural"
     assert edge_tts_config.rate == "+0%"
     assert edge_tts_config.volume == "+0%"
+
+
+def test_load_mcp_config():
+    app: AppConfig = AppConfig.from_yaml("configs/config.yaml")
+
+    mcp_config = app.Tools.load_mcp_config()
+    assert isinstance(mcp_config, dict)
