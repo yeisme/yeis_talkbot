@@ -21,7 +21,10 @@ def test_app_load_config():
     assert app.LLM.temperature == 0.7
     assert app.LLM.max_tokens is not None
     assert app.LLM.streaming is True
-    assert app.LLM.timeout is None
+    assert app.LLM.timeout == 20
+
+    assert hasattr(app, "Tools")
+    assert app.Tools.mcp_file_path == "mcp.json"
 
 
 def test_edge_tts_config():

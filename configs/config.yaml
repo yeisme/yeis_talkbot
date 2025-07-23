@@ -21,5 +21,4 @@ LLM:
   timeout: 20
 
 Tools:
-  MCP:
-    file_path: "mcp.json"
+  mcp_file_path: mcp.json

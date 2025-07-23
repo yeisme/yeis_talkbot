@@ -59,7 +59,9 @@ class AppConfig(BaseSettings):
     LLM: LLMConfig
     Tools: ToolsConfig
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    model_config = SettingsConfigDict(
+        env_file=".env", env_file_encoding="utf-8", extra="ignore"
+    )
 
     @classmethod
     def from_yaml(cls, yaml_file: str):

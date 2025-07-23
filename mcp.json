@@ -1,0 +1,15 @@
+{
+    "mcpServers": {
+        "hefeng-weather-mcp-http": {
+            "url": "http://127.0.0.1:8000/mcp",
+            "type": "http"
+        },
+        "12306-mcp": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "12306-mcp"
+            ]
+        }
+    }
+}
