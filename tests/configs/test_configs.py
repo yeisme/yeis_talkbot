@@ -25,6 +25,15 @@ def test_app_load_config():
 
     assert hasattr(app, "Tools")
     assert app.Tools.mcp_file_path == "mcp.json"
+    assert hasattr(app.Tools, "rag")
+    assert app.Tools.rag.embedding_normalize is True
+    assert app.Tools.rag.embedding_device == "cuda"
+    assert app.Tools.rag.embedding_model == "BAAI/bge-large-zh-v1.5"
+    assert app.Tools.rag.vs_type == "chroma"
+    assert app.Tools.rag.vs_collection == "default"
+    assert app.Tools.rag.vs_top_k == 5
+    assert app.Tools.rag.vs_score_threshold == 0.0
+    assert app.Tools.rag.rerank_model is None
 
 
 def test_edge_tts_config():

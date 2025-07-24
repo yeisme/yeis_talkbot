@@ -22,3 +22,12 @@ LLM:
 
 Tools:
   mcp_file_path: mcp.json
+  rag:
+    embedding_normalize: true
+    embedding_device: cuda
+    embedding_model: BAAI/bge-large-zh-v1.5
+    vs_type: chroma
+    vs_collection: default
+    vs_top_k: 5
+    vs_score_threshold: 0.0
+    rerank_model: null
