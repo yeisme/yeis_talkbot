@@ -1,3 +1,4 @@
+import os
 from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional, Dict
@@ -38,7 +39,7 @@ class LLMConfig(BaseModel):
         description="Base URL for the LLM API",
     )
     temperature: float = Field(0.7, description="Temperature for LLM responses")
-    max_tokens: int = Field(..., description="Maximum tokens for LLM responses")
+    max_tokens: int = Field(32768, description="Maximum tokens for LLM responses")
     streaming: bool = Field(False, description="Enable streaming for LLM responses")
     timeout: Optional[int | None] = Field(None, description="Timeout for LLM requests")
 
@@ -51,13 +52,15 @@ class AppConfig(BaseSettings):
 
     """
 
-    OPENAI_API_KEY: str
+    OPENAI_API_KEY: str = Field(
+        default=os.getenv("OPENAI_API_KEY", ""), description="OpenAI API Key"
+    )
 
-    TTS: TTSConfig
-    ASR: ASRConfig
-    VAD: VADConfig
-    LLM: LLMConfig
-    Tools: ToolsConfig
+    TTS: TTSConfig = Field(default_factory=TTSConfig)  # type: ignore
+    ASR: ASRConfig = Field(default_factory=ASRConfig)
+    VAD: VADConfig = Field(default_factory=VADConfig)
+    LLM: LLMConfig = Field(default_factory=LLMConfig)  # type: ignore
+    Tools: ToolsConfig = Field(default_factory=ToolsConfig)  # type: ignore
 
     model_config = SettingsConfigDict(
         env_file=".env", env_file_encoding="utf-8", extra="ignore"

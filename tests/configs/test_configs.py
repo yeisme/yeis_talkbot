@@ -1,7 +1,18 @@
 from src.yeis_talkbot.configs import AppConfig, EdgeTTSConfig
 
 
-def test_app_load_config():
+def test_app_config():
+    app = AppConfig(OPENAI_API_KEY="your_api_key_here")
+
+    assert hasattr(app, "TTS")
+    assert hasattr(app, "ASR")
+    assert hasattr(app, "VAD")
+    assert hasattr(app, "LLM")
+    assert hasattr(app, "Tools")
+    assert app.Tools.mcp_file_path == "mcp.json"
+
+
+def test_app_load_config_from_yaml():
     app: AppConfig = AppConfig.from_yaml("configs/config.yaml")
 
     assert hasattr(app, "TTS")
@@ -31,9 +42,6 @@ def test_app_load_config():
     assert app.Tools.rag.embedding_model == "BAAI/bge-large-zh-v1.5"
     assert app.Tools.rag.vs_type == "chroma"
     assert app.Tools.rag.vs_collection == "default"
-    assert app.Tools.rag.vs_top_k == 5
-    assert app.Tools.rag.vs_score_threshold == 0.0
-    assert app.Tools.rag.rerank_model is None
 
 
 def test_edge_tts_config():

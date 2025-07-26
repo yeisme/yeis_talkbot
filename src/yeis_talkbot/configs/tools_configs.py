@@ -10,11 +10,15 @@ class RAGConfig(BaseModel):
         "BAAI/bge-large-zh-v1.5", description="Embedding 模型名称(HuggingFace Hub)"
     )
 
-    vs_type: str = Field("chroma", description="chroma / milvus / faiss / weaviate")
+    vs_type: str = Field("chroma", description="chroma / weaviate / Qdrant / Pinecone")
     vs_collection: str = Field("default", description="向量库 collection / index 名称")
-    vs_top_k: int = Field(5, description="检索返回条数")
-    vs_score_threshold: float = Field(0.0, description="相似度阈值，<=0 表示不启用")
-    rerank_model: Optional[str] = Field(None, description="重排序模型；None 表示不使用")
+
+    vs_path: Optional[str] = Field(
+        None, description="向量存储路径，本地存储为目录路径，云存储为目标服务网址"
+    )
+    vs_api_key: Optional[str] = Field(
+        None, description="向量存储 API Key；如果使用云存储服务需要提供"
+    )
 
 
 class ToolsConfig(BaseModel):
